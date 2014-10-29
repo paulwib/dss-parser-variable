@@ -1,0 +1,20 @@
+{
+  "name": "dss-parser-variable",
+  "version": "0.0.1",
+  "description": "A variable parser for DSS (Documented Stylesheets)",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha"
+  },
+  "keywords": [
+    "dss",
+    "css",
+    "parser"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^1.9.2",
+    "dss": "^1.0.4",
+    "mocha": "^2.0.1"
+  }
+}
