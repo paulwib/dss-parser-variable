@@ -4,7 +4,10 @@
   "description": "A variable parser for DSS (Documented Stylesheets)",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "./node_modules/mocha/bin/mocha",
+    "release-patch": "./node_modules/.bin/mversion patch -m 'Released patch version v%s'",
+    "release-minor": "./node_modules/.bin/mversion minor -m 'Released minor version v%s'",
+    "release-major": "./node_modules/.bin/mversion major -m 'Released major version v%s'"
   },
   "keywords": [
     "dss",
@@ -15,6 +18,21 @@
   "devDependencies": {
     "chai": "^1.9.2",
     "dss": "^1.0.4",
-    "mocha": "^2.0.1"
+    "mocha": "^2.0.1",
+    "mversion": "^1.6.1"
+  },
+  "engines": {
+    "node": ">=0.9"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:paulwib/dss-parser-variable.git"
+  },
+  "author": {
+    "name": "Paul Willoughby",
+    "url": "https://github.com/paulwib"
   }
 }
