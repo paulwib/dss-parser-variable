@@ -19,6 +19,7 @@ function dssVariableParser() {
         match, hash, tokens, name;
 
     return function(i, line, block, css) {
+        // Extract all defined variables in this CSS file (once per file)
         hash = crypto.createHash('md5').update(css).digest('hex');
         if (!fileVariables[hash]) {
             while ((match = fileVariablesRx.exec(css)) !== null) {
@@ -27,13 +28,13 @@ function dssVariableParser() {
             fileVariables[hash] = variables;
         }
 
-        // Extract name and any delimiter with description
+        // Extract variable name and description from comment block
         tokens = line.split(lineSplitRx, 2);
         name = tokens[0].trim();
         if (variables.hasOwnProperty(name)) {
             return {
                 name: name,
-                // Description is line with name and any delimiter replaced
+                // Description is line with variable name and any delimiter replaced
                 description: line.replace(tokens.join(''), ''),
                 value: variables[name]
             };
