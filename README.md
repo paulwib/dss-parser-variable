@@ -5,46 +5,54 @@ A `@variable` parser for documenting SCSS/LESS variables from [Documented Style 
 
 ## Usage
 
+In a file `test.scss`:
+
 ```css
 /**
  * @name Colours
+ * @variable white
  * @variable blue - Sky blue
- * @variable red
+ * @variable dark-red Button outlines
  */
 $blue: #0000FF;
-$red: #FF0000;
+$dark-red: #FF0000;
 $black: #000000;
 ```
 
+In JavaScript:
+
 ```javascript
-var dss = require('dss');
-var variableParser = require('dss-parser-variable');
+var fs = require('fs'),
+    dss = require('dss'),
+    variableParser = require('dss-parser-variable');
 
 dss.parser('variable', variableParser());
 
-var lines = fs.readFileSync('styles.css'),
+var scss = fs.readFileSync('test.scss'),
     options = {},
     callback = function(parsed){
-      console.log(parsed);
+      console.log(JSON.stringify(parsed, true, 4));
     };
 
-dss.parse(lines, options, callback);
+dss.parse(scss, options, callback);
 ```
 
 Will output:
 
-```javascript
+```json
 {
-    blocks: [{
-        name: 'Colours',
-        variable: [
-            { name: 'blue', description: 'Sky blue', value: '#0000FF' },
-            { name: 'red', description: '', value: '#FF0000' }
+    "blocks": [{
+        "name": "Colours",
+        "variable": [
+            { "name": "blue", "description": "Sky blue", "value": "#0000FF" },
+            { "name": "dark-red", "description": "Button outlines", "value": "#FF0000" }
         ]
     }]
 }
 
 ```
+
+Note there is no entry for `white` because the variable does not exist in the file, and there is no entry for `black` because there is no description in the DSS block.
 
 [Documented Style Sheets]:https://github.com/darcyclarke/DSS
 

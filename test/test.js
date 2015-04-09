@@ -1,5 +1,6 @@
 'use strict';
 /* globals describe, it */
+var fs = require('fs');
 var expect = require('chai').expect;
 var dssParserVariable = require('../');
 var dss = require('dss');
@@ -94,6 +95,26 @@ describe('dss-variable-parser', function() {
             expect(parsedDss.blocks[0].variable.name).to.equal('sky-blue');
             expect(parsedDss.blocks[0].variable.value).to.equal('#0000FF');
             expect(parsedDss.blocks[0].variable.description).to.equal('Sky blue');
+            done();
+        });
+    });
+
+    it('should support the example in the README', function(done) {
+        var readme = fs.readFileSync('README.md');
+        var css = readme.toString().match(/```css([^`])+/)[0].split('\n').slice(1).join('\n');
+        var expected = JSON.parse(readme.toString().match(/```json([^`])+/)[0].split('\n').slice(1).join('\n'));
+        dss.parse(css, {}, function(parsedDss) {
+            expect(parsedDss.blocks.length).to.equal(expected.blocks.length);
+            expect(parsedDss.blocks[0].variable.length).to.equal(expected.blocks[0].variable.length);
+
+            expect(parsedDss.blocks[0].variable[0].name).to.equal(expected.blocks[0].variable[0].name);
+            expect(parsedDss.blocks[0].variable[0].value).to.equal(expected.blocks[0].variable[0].value);
+            expect(parsedDss.blocks[0].variable[0].description).to.equal(expected.blocks[0].variable[0].description);
+
+            expect(parsedDss.blocks[0].variable[1].name).to.equal(expected.blocks[0].variable[1].name);
+            expect(parsedDss.blocks[0].variable[1].value).to.equal(expected.blocks[0].variable[1].value);
+            expect(parsedDss.blocks[0].variable[1].description).to.equal(expected.blocks[0].variable[1].description);
+
             done();
         });
     });
