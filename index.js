@@ -13,8 +13,8 @@ module.exports = dssVariableParser;
 function dssVariableParser() {
 
     var fileVariables = {},
-        fileVariablesRx = /^[\$|@]([a-zA-Z0-9_]+):([^\;]+)\;/gim,
-        lineSplitRx = /((\s|-)+)/,
+        fileVariablesRx = /^[\$|@]([a-zA-Z0-9_-]+):([^\;]+)\;/gim,
+        lineSplitRx = /(\s(-\s)?)/,
         variables = {},
         match, hash, tokens, name;
 
