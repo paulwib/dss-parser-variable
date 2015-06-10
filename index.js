@@ -7,16 +7,20 @@ module.exports = dssVariableParser;
 /**
  * Get parser to extract "@variable {name} - {description}"
  *
- * @param {object} file - The file to extract the variable values from
+ * @param {boolean} [strict=true] - ignore definitions of undefined variables
  * @return {function} A DSS parser
  */
-function dssVariableParser() {
+function dssVariableParser(strict) {
 
     var fileVariables = {},
         fileVariablesRx = /^[\$|@]([a-zA-Z0-9_-]+):([^\;]+)\;/gim,
         lineSplitRx = /(\s(-\s)?)/,
         variables = {},
         match, hash, tokens, name;
+
+    if (typeof strict === 'undefined') {
+        strict = true;
+    }
 
     return function(i, line, block, css) {
         // Extract all defined variables in this CSS file (once per file)
@@ -31,7 +35,7 @@ function dssVariableParser() {
         // Extract variable name and description from comment block
         tokens = line.split(lineSplitRx, 2);
         name = tokens[0].trim();
-        if (variables.hasOwnProperty(name)) {
+        if (variables.hasOwnProperty(name) || !strict) {
             return {
                 name: name,
                 // Description is line with variable name and any delimiter replaced

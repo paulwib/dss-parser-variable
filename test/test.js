@@ -1,19 +1,27 @@
 'use strict';
 /* globals describe, it */
 var fs = require('fs');
+var dss = require('dss');
 var expect = require('chai').expect;
 var dssParserVariable = require('../');
-var dss = require('dss');
-
 
 describe('dss-variable-parser', function() {
-
     it('should parse name, value and description from @variable', function(done) {
         var css = '/**\n * @variable blue - Sky blue\n */\n$blue: #0000FF;\n';
         dss.parser('variable', dssParserVariable());
         dss.parse(css, {}, function(parsedDss) {
             expect(parsedDss.blocks[0].variable.name).to.equal('blue');
             expect(parsedDss.blocks[0].variable.value).to.equal('#0000FF');
+            expect(parsedDss.blocks[0].variable.description).to.equal('Sky blue');
+            done();
+        });
+    });
+
+    it('should parse name and description from @variable, if variable is not defined', function(done) {
+        var css = '/**\n * @variable blue - Sky blue\n */';
+        dss.parser('variable', dssParserVariable(false));
+        dss.parse(css, {}, function(parsedDss) {
+            expect(parsedDss.blocks[0].variable.name).to.equal('blue');
             expect(parsedDss.blocks[0].variable.description).to.equal('Sky blue');
             done();
         });
@@ -118,5 +126,4 @@ describe('dss-variable-parser', function() {
             done();
         });
     });
-
 });

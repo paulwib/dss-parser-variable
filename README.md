@@ -53,6 +53,7 @@ Will output:
 ```
 
 Note there is no entry for `white` because the variable does not exist in the file, and there is no entry for `black` because there is no description in the DSS block.
+If you pass `false` flag to the constructor it will include variables that does not exist in the file, i.e. there would be entry for a `white` in output.
 
 [Documented Style Sheets]:https://github.com/darcyclarke/DSS
 
