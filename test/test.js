@@ -19,6 +19,16 @@ describe('dss-variable-parser', function() {
         });
     });
 
+    it('should parse name and description from @variable, if variable is not defined', function(done) {
+        var css = '/**\n * @variable blue - Sky blue\n */';
+        dss.parser('variable', dssParserVariable(true));
+        dss.parse(css, {}, function(parsedDss) {
+            expect(parsedDss.blocks[0].variable.name).to.equal('blue');
+            expect(parsedDss.blocks[0].variable.description).to.equal('Sky blue');
+            done();
+        });
+    });
+
     it('should parse multiples @variable into an array', function(done) {
         var css = '/**\n * @variable blue - Sky blue\n  * @variable red\n*/\n$blue: #0000FF;\n$red: #FF0000;\n';
         dss.parser('variable', dssParserVariable());
