@@ -1,6 +1,6 @@
 {
   "name": "dss-parser-variable",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A variable parser for DSS (Documented Stylesheets)",
   "main": "index.js",
   "scripts": {
