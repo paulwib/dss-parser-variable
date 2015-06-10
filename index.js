@@ -7,16 +7,20 @@ module.exports = dssVariableParser;
 /**
  * Get parser to extract "@variable {name} - {description}"
  *
- * @param {boolean} loose - should we ignore presence of variable in a scope?
+ * @param {boolean} [strict=true] - ignore definitions of undefined variables
  * @return {function} A DSS parser
  */
-function dssVariableParser(loose) {
+function dssVariableParser(strict) {
 
     var fileVariables = {},
         fileVariablesRx = /^[\$|@]([a-zA-Z0-9_-]+):([^\;]+)\;/gim,
         lineSplitRx = /(\s(-\s)?)/,
         variables = {},
         match, hash, tokens, name;
+
+    if (typeof strict === 'undefined') {
+        strict = true;
+    }
 
     return function(i, line, block, css) {
         // Extract all defined variables in this CSS file (once per file)
@@ -31,7 +35,7 @@ function dssVariableParser(loose) {
         // Extract variable name and description from comment block
         tokens = line.split(lineSplitRx, 2);
         name = tokens[0].trim();
-        if (variables.hasOwnProperty(name) || loose) {
+        if (variables.hasOwnProperty(name) || !strict) {
             return {
                 name: name,
                 // Description is line with variable name and any delimiter replaced
